@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>VN Player</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="VN Player">
+<meta name="theme-color" content="#0e1016">
+<meta name="robots" content="noindex, nofollow">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main id="library" class="screen">
+  <div class="page">
+    <header class="page-head">
+      <h1>VN Player</h1>
+      <p class="muted">Plays game bundles made by the converter on your PC. Everything stays on this device.</p>
+    </header>
+
+    <section>
+      <h2>Your games</h2>
+      <div id="games" class="games"></div>
+      <label class="button primary" id="import-label">
+        Import a game bundle
+        <input id="import-input" type="file" accept=".zip,application/zip,application/x-zip-compressed">
+      </label>
+      <p class="muted small">Pick the <code>.vnbundle.zip</code> file. It is copied into this app's storage, so the original can be deleted afterwards.</p>
+    </section>
+
+    <section id="install-hint" hidden>
+      <h2>Full screen</h2>
+      <p class="muted">Tap the Share button, then <b>Add to Home Screen</b>, and open the player from the new icon. Import your games there: the Home Screen app keeps its own storage, separate from Safari, and iPadOS does not clear it after a week of not being used.</p>
+    </section>
+
+    <section>
+      <h2>Storage and saves</h2>
+      <p id="storage-line" class="muted"></p>
+      <div class="row">
+        <button class="button" id="export-saves" type="button">Back up saves</button>
+        <label class="button">Restore saves<input id="restore-input" type="file" accept=".json,application/json"></label>
+      </div>
+      <p id="offline-line" class="muted small"></p>
+    </section>
+  </div>
+</main>
+
+<section id="title" class="screen" hidden>
+  <div id="title-art"></div>
+  <h1 id="title-name"></h1>
+  <nav id="title-menu">
+    <button class="button primary" id="btn-start" type="button">Start</button>
+    <button class="button" id="btn-continue" type="button">Continue</button>
+    <button class="button" id="btn-load" type="button">Load</button>
+    <button class="button" id="btn-settings" type="button">Settings</button>
+    <button class="button" id="btn-library" type="button">Library</button>
+  </nav>
+</section>
+
+<section id="play" class="screen" hidden>
+  <div id="stage">
+    <div id="shaker">
+      <canvas id="scene"></canvas>
+      <div id="roll" hidden><img alt=""></div>
+      <div id="flash"></div>
+      <div id="textlayer"></div>
+      <div id="choices" hidden></div>
+      <video id="movie" playsinline webkit-playsinline preload="auto" hidden></video>
+    </div>
+  </div>
+  <button id="movie-skip" class="float-button" type="button" hidden>Skip</button>
+  <button id="movie-play" class="button primary" type="button" hidden>Tap to play the movie</button>
+  <nav id="toolbar">
+    <button type="button" data-act="auto">Auto</button>
+    <button type="button" data-act="skip">Skip</button>
+    <button type="button" data-act="log">Log</button>
+    <button type="button" data-act="save">Save</button>
+    <button type="button" data-act="load">Load</button>
+    <button type="button" data-act="hide">Hide</button>
+    <button type="button" data-act="menu">Menu</button>
+  </nav>
+</section>
+
+<div id="overlay" hidden></div>
+<div id="modal" hidden></div>
+<div id="toast" hidden></div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

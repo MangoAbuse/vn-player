@@ -580,7 +580,7 @@ export class Engine {
 
   op_img(op) {
     const item = {};
-    for (const key of ['src', 'color', 'x', 'y', 'ax', 'ay', 'base']) {
+    for (const key of ['src', 'color', 'x', 'y', 'ax', 'ay', 'base', 'alpha']) {
       if (op[key] !== undefined) item[key] = op[key];
     }
     (this.stage.staged.L[op.layer] ||= {})[op.slot] = item;
@@ -757,11 +757,16 @@ export class Engine {
   async op_choice(op) {
     this.takeSnap(this.pc - 1);
     if (this.skip) this.setSkip(false);
-    const options = (op.options || []).map((o) => this.subst(o));
-    if (!options.length) return;
+    const all = (op.options || []).map((o) => this.subst(o));
+    if (!all.length) return;
+    // `when` hides options that are not available yet; the stored number still counts them all.
+    let offered = all.map((text, index) => index)
+      .filter((index) => !op.when || op.when[index] == null || !!this.ev(op.when[index]));
+    if (!offered.length) offered = all.map((text, index) => index);
+    const options = offered.map((index) => all[index]);
     this.check();
     this.progress++;
-    const picked = await new Promise((resolve, reject) => {
+    const shown = await new Promise((resolve, reject) => {
       const waiter = {
         tap: () => {},
         kick: () => {},
@@ -773,7 +778,8 @@ export class Engine {
         resolve(index);
       });
     });
+    const picked = offered[shown];
     this.setVar(this.ref(op.var), picked + (op.base ?? 1));
-    this.ui.log({ who: null, text: '› ' + options[picked], voice: null });
+    this.ui.log({ who: null, text: '› ' + all[picked], voice: null });
   }
 }

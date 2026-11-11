@@ -157,9 +157,11 @@ export class Stage {
   }
 
   paintSlot(ctx, item) {
+    ctx.globalAlpha = item.alpha ?? 1;
     if (item.color) {
       ctx.fillStyle = item.color;
       ctx.fillRect(0, 0, this.w, this.h);
+      ctx.globalAlpha = 1;
       return;
     }
     const x = item.x || 0;
@@ -168,8 +170,9 @@ export class Stage {
       const body = this.get(item.base.src);
       if (body) ctx.drawImage(body, x - (item.base.ax || 0), y - (item.base.ay || 0));
     }
-    const image = this.get(item.src);
+    const image = item.src ? this.get(item.src) : null;
     if (image) ctx.drawImage(image, x - (item.ax || 0), y - (item.ay || 0));
+    ctx.globalAlpha = 1;
   }
 
   // -------------------------------------------------------------- transitions

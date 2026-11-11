@@ -2,7 +2,7 @@
 // Game data never goes through here; it is read from the device's storage by the page.
 // Bump VERSION whenever any file of the player changes.
 
-const VERSION = '1.0.0';
+const VERSION = '1.1.0';
 const CACHE = 'vn-player-' + VERSION;
 const FILES = [
   './',

@@ -11,7 +11,7 @@ import { TextUI } from './textbox.js';
 import { AudioEngine } from './audio.js';
 import { Engine } from './engine.js';
 
-const VERSION = '1.0.0';
+const VERSION = '1.1.0';
 const SLOTS = 30;
 const $ = (selector) => document.querySelector(selector);
 const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
